@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comptador de Temps i Diners</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400&display=swap');
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .counter-container {
+            text-align: center;
+        }
+
+        #timeElapsed {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4em;
+            letter-spacing: 0.05em;
+            margin: 20px;
+        }
+
+        #moneyCounter {
+            font-family: Arial, sans-serif;
+            font-size: 5em; /* Augmenta la mida de la font */
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <div id="timeElapsed">00:00:00</div>
+        <div id="moneyCounter">0.0000 €</div>
+    </div>
+
+    <script>
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let money = 0.0000;
+        const moneyIncrementPerSecond = 0.015 / 60; // Increment per segon (equivalent a 0.015 € per minut)
+
+        function updateCounters() {
+            // Actualitza el temps
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+
+            // Mostra el temps en format hh:mm:ss
+            document.getElementById('timeElapsed').innerText =
+                (hours < 10 ? "0" + hours : hours) + ":" +
+                (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                (seconds < 10 ? "0" + seconds : seconds);
+
+            // Actualitza el cost acumulat cada segon
+            money += moneyIncrementPerSecond;
+            document.getElementById('moneyCounter').innerText = money.toFixed(4) + " €";
+        }
+
+        // Actualitza cada segon
+        setInterval(updateCounters, 1000);
+    </script>
+</body>
+</html>
